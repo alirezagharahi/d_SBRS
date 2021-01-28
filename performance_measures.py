@@ -7,49 +7,49 @@ Hidasi, Balázs, et al. "Session-based recommendations with recurrent neural net
 import numpy as np
 import math
 
-class Precision: 
-    
+class Precision:
+
     def __init__(self, length=20):
         self.length = length;
-    
-    def init(self, content):
+
+    def init(self,train, content):
         return
-        
+
     def reset(self):
         '''
         Desc: Reset for usage in multiple evaluations
         '''
         self.test=0;
         self.hit=0
-    
+
     def add_set(self, result, next_items, for_item=0, session=0):
         '''
         Desc: Update the metric with predictions and the correct next items.
-        
+
         Input
         --------
         result: pandas.Series of scores with the item id as the index
         '''
         self.test += 1
         self.hit += len( set(next_items) & set(result[:self.length].index) ) / self.length
-        
+
     def result(self):
         '''
         Desc: Return a tuple of a description string and the current averaged value
         '''
         return ("Precision@" + str(self.length) + ": "), (self.hit/self.test)
-    
-class Recall: 
-    
+
+class Recall:
+
     def __init__(self, length=20):
         self.length = length;
-    
+
 #    def init(self, train):
-    def init(self, content):
+    def init(self, train,content):
 
         '''
         Do initialization work here.
-        
+
         Parameters
         --------
         train: pandas.DataFrame
@@ -57,25 +57,25 @@ class Recall:
             It must have a header. Column names are arbitrary, but must correspond to the ones you set during the initialization of the network (session_key, item_key, time_key properties).
         '''
         return
-        
+
     def reset(self):
         '''
         Desc: Reset for usage in multiple evaluations
         '''
         self.test=0;
-        self.hit=0 
-       
+        self.hit=0
+
     def add_set(self, result, next_items, for_item=0, session=0):
         '''
         Desc: Update the metric with predictions and the correct next items.
-        
+
         Input
         --------
         result: pandas.Series of scores with the item id as the index
         '''
         self.test += 1
         self.hit += len( set(next_items) & set(result[:self.length].index) ) / len(next_items)
-        
+
     def result(self):
         '''
         Return a tuple of a description string and the current averaged value
@@ -86,39 +86,39 @@ class Diversity:
     '''
     ArtistCoherence( length=20 )
 
-    Used to iteratively calculate the artist diversity of music recommendation lists of an algorithm. 
+    Used to iteratively calculate the artist diversity of music recommendation lists of an algorithm.
 
     Parameters
     -----------
     length : int
         Coverage@length
-    '''    
+    '''
     def __init__(self, length=20):
         self.length = length
         self.average = 0.0
         self.count = 0.0
-        
-    def init(self, content):
+
+    def init(self,train, content):
         '''
         Do initialization work here.
-        
+
         Parameters
         --------
         train: pandas.DataFrame
             Training data. It contains the transactions of the sessions. It has one column for session IDs, one for item IDs and one for the timestamp of the events (unix timestamps).
             It must have a header. Column names are arbitrary, but must correspond to the ones you set during the initialization of the network (session_key, item_key, time_key properties).
         '''
-                        
+
         self.content = content
-        
-        
+
+
     def reset(self):
         '''
         Reset for usage in multiple evaluations
         '''
         self.average = 0.0
         self.count = 0.0
-        
+
     def skip(self, for_item = 0, session = -1 ):
         pass
 
@@ -126,86 +126,86 @@ class Diversity:
         '''
         Update the metric with a result set and the correct next item.
         Result must be sorted correctly.
-        
+
         Parameters
         --------
         result: pandas.Series
             Series of scores with the item id as the index
         '''
         recs = result[:self.length]
-        
+
         dis = 0.0
         pairs = 0.0
-        
+
         for i in range(len(recs)):
             contentA = self.content[ recs.index[i],: ]
             for j in range(i+1,len(recs)):
                 contentB = self.content[ recs.index[j],:]
                 dis += self.cos_Dis_sim(contentA,contentB)
                 pairs += 1.0
-        
+
         self.average += dis / pairs if pairs > 0 else 0
         self.count += 1
-        
+
     def result(self):
         '''
         Return a tuple of a description string and the current averaged value
         '''
         return ("Diversity@" + str(self.length) + ": "), ( self.average / self.count )
-    
+
     def cos_Dis_sim(self,a,b):
         dot_product = np.dot(a, b)
         norm_a = np.linalg.norm(a)
         norm_b = np.linalg.norm(b)
         return (1-(dot_product / (norm_a * norm_b)))/2
-    
+
 
 class DiversityRankRelavance:
     '''
     ArtistCoherence( length=20 )
 
-    Used to iteratively calculate the artist diversity of music recommendation lists of an algorithm. 
+    Used to iteratively calculate the artist diversity of music recommendation lists of an algorithm.
 
     Parameters
     -----------
     length : int
         Coverage@length
     '''
-    
+
     def __init__(self, length=20):
         self.length = length
         self.average = 0.0
         self.count = 0.0
-        
-    def init(self,content):
+
+    def init(self,train,content):
         '''
         Do initialization work here.
-        
+
         Parameters
         --------
         train: pandas.DataFrame
             Training data. It contains the transactions of the sessions. It has one column for session IDs, one for item IDs and one for the timestamp of the events (unix timestamps).
             It must have a header. Column names are arbitrary, but must correspond to the ones you set during the initialization of the network (session_key, item_key, time_key properties).
         '''
-                
+
         self.content = content
-        
-        
+
+
     def reset(self):
         '''
         Reset for usage in multiple evaluations
         '''
         self.average = 0.0
         self.count = 0.0
-        
+
     def skip(self, for_item = 0, session = -1 ):
         pass
-        
+
     def add_set(self, result, next_item, for_item=0, session=0, pop_bin=None, position=None):
         '''
         Update the metric with a result set and the correct next item.
         Result must be sorted correctly.
-        
+
         Parameters
         --------
         result: pandas.Series
@@ -213,7 +213,7 @@ class DiversityRankRelavance:
         '''
         recs = result[:self.length]
         negative_sample = 0.01
-        
+
         avg_dists = []
         disc_weights = []
         for i in range(len(recs)-1):
@@ -242,28 +242,94 @@ class DiversityRankRelavance:
             rank_discount_i = self.log_rank_discount(i)
             avg_dists.append(avg_dists_i * rank_discount_i * relevance_i)
             disc_weights.append(rank_discount_i)
-                
+
 
         #Expected Intra-List Diversity (EILD) with logarithmic rank discount
         #From "Incorporating Diversity in a Learning to Rank Recommender System" (2016)
         avg_cos_dist = sum(avg_dists) / float(sum(disc_weights))
- 
+
         self.average += avg_cos_dist
         self.count += 1
-        
+
 
     def result(self):
         '''
         Return a tuple of a description string and the current averaged value
         '''
         return ("DiversityRR@" + str(self.length) + ": "), ( self.average / self.count )
-    
+
     def log_rank_discount(self,k):
         return 1./math.log2(k+2)
-    
-    
+
+
     def cos_Dis_sim(self,a,b):
         dot_product = np.dot(a, b)
         norm_a = np.linalg.norm(a)
         norm_b = np.linalg.norm(b)
         return (1-(dot_product / (norm_a * norm_b)))/2
+
+class topic_coverage:
+
+    item_key = 'ItemId'
+
+    def __init__(self, length=20):
+        self.length = length
+        self.average = 0.0
+        self.count = 0.0
+
+    def init(self, train, content, meta):
+
+#        self.content = content
+        self.meta = meta
+
+    def reset(self):
+        '''
+        Reset for usage in multiple evaluations
+        '''
+        self.average = 0.0
+        self.count = 0.0
+
+    def skip(self, for_item = 0, session = -1 ):
+        pass
+
+    def add(self, result, next_item, for_item=0, session=0, pop_bin=None, position=None):
+
+        recs = result[:self.length]
+        covered = []
+        for i in range(len(recs)):
+            topic = self.meta[recs.index[i]]
+            covered.append(topic)
+
+        self.average += len(set(covered))
+        self.count += 1
+
+    def add_set(self, result, next_item, for_item=0, session=0, pop_bin=None, position=None):
+        '''
+        Update the metric with a result set and the correct next item.
+        Result must be sorted correctly.
+
+        Parameters
+        --------
+        result: pandas.Series
+            Series of scores with the item id as the index
+        '''
+        recs = result[:self.length]
+        covered = []
+        for i in range(len(recs)):
+            topic = self.meta[recs.index[i]]
+            covered.append(topic)
+
+        try:
+            self.average += len(set(self.flatten_list(covered)))
+        except:
+            self.average += len(set(covered))
+        self.count += 1
+
+    def result(self):
+        '''
+        Return a tuple of a description string and the current averaged value
+        '''
+        return ("Topic_coverage@" + str(self.length) + ": "), ( self.average / self.count )
+
+    def flatten_list(self,x):
+        return [item for sublist in x for item in sublist if len(sublist)>0]

@@ -84,14 +84,6 @@ class ContextKNN:
 
         return aggregate
 
-    def vector_variance (self, content, indexes):
-        '''
-        content: input from article emdeddings containing labelencoders, dataframe and embeddings
-        indexes: article ids in the session
-        '''
-        diags_cov_var_matrix=np.cov(np.transpose(content[indexes])).diagonal()
-        return diags_cov_var_matrix.sum()
-
     def fit(self, train, content, d=None):
 
         '''
@@ -159,7 +151,6 @@ class ContextKNN:
         Output: Prediction scores for selected items on how likely to be the next item of this session. Indexed by the item IDs (pandas.Series).
 
         '''
-
 
         if( self.session != session_id ): #new session
 

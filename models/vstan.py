@@ -1,3 +1,8 @@
+"""
+References:
+Malte Ludewig and Dietmar Jannach. 2018. Evaluation of session-based recommendation algorithms.User Modeling and User-Adapted Interaction28,4-5 (2018), 331–390.
+"""
+
 from _operator import itemgetter
 from math import sqrt, exp
 import random
