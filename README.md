@@ -2,12 +2,12 @@
 
 This page contains support material for the paper: A Gharahighehi and C Vens. “Diversification in Session-based News Recommender Systems”, under review in Personal and Ubiquitous Computing.
 
-This research is built on implementation by Malte Ludewig and Dietmar Jannach [1]. In this paper We make rule-based and neighborhood based session-based recommenders, diversity-aware using news article embeddings.
+This research is built on implementation by [Malte Ludewig and Dietmar Jannach](https://rn5l.github.io/session-rec/index.html) [1]. In this paper We make rule-based and neighborhood based session-based recommenders, diversity-aware using news article embeddings.
 
 Four datasets are used in this study:
 
-- Adressa [2]
-- Globo.com [3]
+- Adressa [2]: You can download the dataset from this [link](http://reclab.idi.ntnu.no/dataset/).
+- Globo.com [3]: You can download the dataset from this [link](https://www.kaggle.com/gspmoreira/news-portal-user-interactions-by-globocom).
 - Kwestie
 - Roularta
 
