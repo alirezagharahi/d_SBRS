@@ -11,7 +11,7 @@ Four datasets are used in this study:
 - Kwestie
 - Roularta
 
-The diversification approach can be set in the [main.py](https://github.com/alirezagharahi/d_SBRS/main.py) file. For instance "D" refers to divers neighbor/rule approach.
+The diversification approach can be set in the [main.py](https://github.com/alirezagharahi/d_SBRS/blob/main/main.py) file. For instance "D" refers to divers neighbor/rule approach.
 
 References:
 
