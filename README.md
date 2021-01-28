@@ -2,7 +2,7 @@
 
 This page contains support material for the paper: A Gharahighehi and C Vens. “Diversification in Session-based News Recommender Systems”, under review in Personal and Ubiquitous Computing.
 
-This research is built on implementation by [Malte Ludewig and Dietmar Jannach](https://rn5l.github.io/session-rec/index.html) [1]. In this paper We make rule-based and neighborhood based session-based recommenders, diversity-aware using news article embeddings.
+This research is built on implementation by [Malte Ludewig and Dietmar Jannach](https://rn5l.github.io/session-rec/index.html) [1]. In this paper we make rule-based and neighborhood based session-based recommenders, diversity-aware using news article embeddings.
 
 Four datasets are used in this study:
 
@@ -11,7 +11,7 @@ Four datasets are used in this study:
 - Kwestie
 - Roularta
 
-The SKNN_D scenario can be tested by using the "diversity" variable in "score_items" function in "cknn.py" file. The SKNN_C scenario can be tested by using "cos_Dis_sim" in the "score_items" function in "cknn.py" file.
+The diversification approach can be set in the [main.py](https://github.com/alirezagharahi/d_SBRS/main.py) file. For instance "D" refers to divers neighbor/rule approach.
 
 References:
 
