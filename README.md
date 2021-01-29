@@ -1,6 +1,6 @@
 # Diversification in Session-based News Recommender Systems
 
-This page contains support material for the paper: A Gharahighehi and C Vens. “Diversification in Session-based News Recommender Systems”, submitted for the theme issue on [Intelligent Systems for Tackling Online Harms](https://www.springer.com/journal/779/updates/18096208) in of the journal of [Personal and Ubiquitous Computing](https://www.springer.com/journal/779/).
+This page contains support material for the paper: A Gharahighehi and C Vens. “Diversification in Session-based News Recommender Systems”, submitted for the theme issue on [Intelligent Systems for Tackling Online Harms](https://www.springer.com/journal/779/updates/18096208) of the journal of [Personal and Ubiquitous Computing](https://www.springer.com/journal/779/).
 
 This research is built on implementation by [Malte Ludewig, Noemi Mauro, Sara Latifi and Dietmar Jannach](https://rn5l.github.io/session-rec/index.html) [1]. In this paper we make rule-based and neighborhood based session-based recommenders, diversity-aware using news article embeddings.
 
