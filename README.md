@@ -13,7 +13,7 @@ Four datasets are used in this study:
 
 The diversification approach can be set in the [main.py](https://github.com/alirezagharahi/d_SBRS/blob/main/main.py) file. For instance "D" refers to divers neighbor/rule approach.
 
-References:
+## References:
 
 [1] Ludewig, M., Mauro, N., Latifi, S., Jannach, D. 2019. Performance comparison of neural andnon-neural approaches to session-based recommendation.  In: Proceedings of the 13thACM Conference on Recommender Systems, pp. 462–466.
 
