@@ -1,8 +1,8 @@
 # Diversification in Session-based News Recommender Systems
 
-This page contains support material for the paper: A Gharahighehi and C Vens. “Diversification in Session-based News Recommender Systems”, under review in Personal and Ubiquitous Computing.
+This page contains support material for the paper: A Gharahighehi and C Vens. “Diversification in Session-based News Recommender Systems”, submitted for the theme issue on [Intelligent Systems for Tackling Online Harms](https://www.springer.com/journal/779/updates/18096208) in of the journal of [Personal and Ubiquitous Computing](https://www.springer.com/journal/779/).
 
-This research is built on implementation by [Malte Ludewig and Dietmar Jannach](https://rn5l.github.io/session-rec/index.html) [1]. In this paper we make rule-based and neighborhood based session-based recommenders, diversity-aware using news article embeddings.
+This research is built on implementation by [Malte Ludewig, Noemi Mauro, Sara Latifi and Dietmar Jannach](https://rn5l.github.io/session-rec/index.html) [1]. In this paper we make rule-based and neighborhood based session-based recommenders, diversity-aware using news article embeddings.
 
 Four datasets are used in this study:
 
@@ -15,7 +15,7 @@ The diversification approach can be set in the [main.py](https://github.com/alir
 
 References:
 
-[1] Malte Ludewig and Dietmar Jannach. 2018. Evaluation of session-based recommendation algorithms.User Modeling and User-Adapted Interaction28,4-5 (2018), 331–390.
+[1] Ludewig, M., Mauro, N., Latifi, S., Jannach, D. 2019. Performance comparison of neural andnon-neural approaches to session-based recommendation.  In: Proceedings of the 13thACM Conference on Recommender Systems, pp. 462–466.
 
 [2] Jon Atle Gulla, Lemei Zhang, Peng Liu, Özlem Özgöbek, and Xiaomeng Su. 2017. The Adressa dataset for news recommendation. InProceedings of theinternational conference on web intelligence. 1042–1048.
 
