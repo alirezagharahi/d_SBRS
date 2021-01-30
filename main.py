@@ -14,19 +14,6 @@ from models import sknn,vsknn,vstan,stan,ar,sr,mc
 import evaluation as eval
 import performance_measures as per
 
-def create_args_parser():
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-            '--input_dataset', default='',
-            help='Input path of the dataset.')
-
-    parser.add_argument(
-            '--approach', default='',
-            help='Diversification appraoch.')
-
-    return parser
-
 def load_data( path, file_name):
     '''
     Desc: Loads a tuple of training and test set with the given parameters.
@@ -71,15 +58,18 @@ if __name__ == '__main__':
     diversification = "ID" # use "D" for diverse neighbor/rule, "I" for diverse candidate item and None for the original methods
     # read pickle of article embeddings
 
-# chamealon
+# globo dataset
     os.chdir('.../glob1') # set the currect directory
+    # read the embeddigns
     filename = 'articles_embeddings.pickle'
     infile = open(filename,'rb')
     with open(filename, 'rb') as f:
         content = pkl.load(f)
     content = pkl.load(infile)
+    # read the topics of the articles
     data = pd.read_csv('articles_metadata.csv',index_col=False)
     meta = pd.Series(data.category_id.values,index=data.article_id).to_dict()
+
     data_path = '.../slices/'
     file_prefix = 'glob1'
 
@@ -91,11 +81,10 @@ if __name__ == '__main__':
     metric.append(per.DiversityRankRelavance(10) )
     metric.append(per.topic_coverage(10))
 
-    # predictor
+    # predictors
     algs = {}
 
     # rule-based
-
     ara = ar.AssosiationRules();
     algs['ar'] = ara
 
@@ -106,7 +95,6 @@ if __name__ == '__main__':
     algs['sr'] = sra
 
     # neighborhood_based
-
     sknna = sknn.ContextKNN( 200, sample_size=500, similarity="cosine", extend=False )
     algs['sknn'] = sknna
 
