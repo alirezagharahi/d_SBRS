@@ -66,12 +66,13 @@ def load_data( path, file_name):
 
 
 if __name__ == '__main__':
-    # set variables and parameters based on the dataset
-    diversification = "ID"
+
+
+    diversification = "ID" # use "D" for diverse neighbor/rule, "I" for diverse candidate item and None for the original methods
     # read pickle of article embeddings
 
 # chamealon
-    os.chdir('/home/alireza/HOME/session_diversity/data/glob1')
+    os.chdir('.../glob1') # set the currect directory
     filename = 'articles_embeddings.pickle'
     infile = open(filename,'rb')
     with open(filename, 'rb') as f:
@@ -79,8 +80,7 @@ if __name__ == '__main__':
     content = pkl.load(infile)
     data = pd.read_csv('articles_metadata.csv',index_col=False)
     meta = pd.Series(data.category_id.values,index=data.article_id).to_dict()
-    os.chdir('/home/alireza/HOME/session_diversity/')
-    data_path = '/home/alireza/HOME/d_SBRS/data/glob1/slices/'
+    data_path = '.../slices/'
     file_prefix = 'glob1'
 
     # create a list of metric classes to be evaluated
@@ -91,15 +91,13 @@ if __name__ == '__main__':
     metric.append(per.DiversityRankRelavance(10) )
     metric.append(per.topic_coverage(10))
 
-
     # predictor
     algs = {}
 
-    stana = stan.STAN( 100, sample_size=2500, sampling='recent', remind=True, extend=False, lambda_spw=5, lambda_snh=4.42, lambda_inh=5 , session_key = 'SessionId', item_key= 'ItemId', time_key= 'Time' )
-    algs['stan'] = stana
+    # rule-based
 
-    vstana = vstan.VSKNN_STAN( 300, sample_size=2500, sampling='recent', remind=True, extend=False, similarity='cosine', lambda_spw=3.95, lambda_snh=2.71, lambda_inh=4.68, lambda_ipw=3.25, lambda_idf=1.5, session_key = 'SessionId', item_key= 'ItemId', time_key= 'Time' )
-    algs['vstan'] = vstana
+    ara = ar.AssosiationRules();
+    algs['ar'] = ara
 
     mca = mc.MarkovModel()
     algs['markov'] = mca
@@ -107,15 +105,19 @@ if __name__ == '__main__':
     sra = sr.SequentialRules( steps = 15, weighting='same', pruning=25, last_n_days=None )
     algs['sr'] = sra
 
-    ara = ar.AssosiationRules();
-    algs['ar'] = ara
+    # neighborhood_based
 
+    sknna = sknn.ContextKNN( 200, sample_size=500, similarity="cosine", extend=False )
+    algs['sknn'] = sknna
 
     vknna = vsknn.VMContextKNN( 300, sample_size=2500, similarity="cosine",weighting="log",weighting_score="quadratic_score", last_n_days=None, extend=False )
     algs['vsknn'] = vknna
 
-    sknna = sknn.ContextKNN( 200, sample_size=500, similarity="cosine", extend=False )
-    algs['sknn'] = sknna
+    stana = stan.STAN( 100, sample_size=2500, sampling='recent', remind=True, extend=False, lambda_spw=5, lambda_snh=4.42, lambda_inh=5 , session_key = 'SessionId', item_key= 'ItemId', time_key= 'Time' )
+    algs['stan'] = stana
+
+    vstana = vstan.VSKNN_STAN( 300, sample_size=2500, sampling='recent', remind=True, extend=False, similarity='cosine', lambda_spw=3.95, lambda_snh=2.71, lambda_inh=4.68, lambda_ipw=3.25, lambda_idf=1.5, session_key = 'SessionId', item_key= 'ItemId', time_key= 'Time' )
+    algs['vstan'] = vstana
 
     # load data
     train, test = load_data(data_path, file_prefix)
@@ -151,12 +153,4 @@ if __name__ == '__main__':
         for e in l:
             print(k, ':', e[0], ' ', e[1])
 
-#
-#    # evaluation
-#    result = eval.evaluate_sessions(vknna, metric, test, train)
-#
-#    # print results
-#    for e in result:
-#        print( e[0], ' ', e[1])
-#
-#    del metric
+    del metric
