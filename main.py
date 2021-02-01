@@ -10,7 +10,7 @@ import pickle as pkl
 import pandas as pd
 from _datetime import timezone, datetime
 import gc
-from models import sknn,vsknn,vstan,stan,ar,sr,mc
+from models import sknn,vsknn,vstan,stan
 import evaluation as eval
 import performance_measures as per
 
@@ -55,7 +55,7 @@ def load_data( path, file_name):
 if __name__ == '__main__':
 
 
-    diversification = "ID" # use "D" for diverse neighbor/rule, "I" for diverse candidate item and None for the original methods
+    diversification = "ID" # use "D" for diverse neighbor, "I" for diverse candidate item and None for the original methods
     # read pickle of article embeddings
 
 # globo dataset
@@ -83,16 +83,6 @@ if __name__ == '__main__':
 
     # predictors
     algs = {}
-
-    # rule-based
-    ara = ar.AssosiationRules();
-    algs['ar'] = ara
-
-    mca = mc.MarkovModel()
-    algs['markov'] = mca
-
-    sra = sr.SequentialRules( steps = 15, weighting='same', pruning=25, last_n_days=None )
-    algs['sr'] = sra
 
     # neighborhood_based
     sknna = sknn.ContextKNN( 200, sample_size=500, similarity="cosine", extend=False )
